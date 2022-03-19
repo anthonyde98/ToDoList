@@ -1,0 +1,92 @@
+.card{
+    border: 0.3px solid rgb(216, 216, 216);
+    box-shadow: 0 2px 8px 0 rgba(73, 73, 73, 0.44);
+}
+
+.logo{
+    width: 250px;
+    text-align: center;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+
+.spinner-border{
+    position: absolute;
+    right: 30px;
+    top: 20px
+}
+
+.inicio {
+    height: 470px;
+}
+
+.content-form{
+    max-width: 400px;
+}
+
+.content-task {
+    max-width: 600px;
+}
+
+.btn:hover{
+    transform: translateY(0.25rem);
+    
+}
+.btn-primary:hover{
+    box-shadow: 0px 3px 15px rgba(17, 66, 226, 0.507);
+}
+.btn-danger{
+    box-shadow:  0px 3px 15px rgba(226, 17, 17, 0.507);
+}
+
+table td:nth-child(5) {
+    width: 85px
+}
+table td:nth-child(2) {
+    width: 181px
+}
+
+.estado{
+    border-bottom: 0.5px solid rgb(223, 223, 223);
+}
+
+.btn-i:hover {
+    cursor: pointer;
+}
+
+.head{
+    font-size: 15px;
+    margin-bottom: 0;
+    color: rgb(64, 113, 204);
+}
+
+.text{
+    margin-top: 0px;
+    font-size: 10px;
+    color: rgb(80, 81, 83);
+}
+
+.contenido{
+    white-space: pre-wrap;
+}
+
+.exit{
+    position: absolute;
+    right: 15px;
+    top: 10px
+}
+
+@media (max-width: 600px) {
+    .logo{
+        margin: auto !important;
+    }
+
+    .row{
+        padding-top: 15px !important;
+        padding-bottom: 15px !important;
+    }
+    .row-info{
+        padding-top: 25px !important;
+    }
+}

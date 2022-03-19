@@ -1,0 +1,113 @@
+<section class="inicio my-3">
+    <div class="logo ms-3 bg-light">
+        <a [routerLink]="['']" routerLinkActive="router-link-active" class="navbar-brand">
+            <i class="fad fa-tasks"></i>
+            <span class="fw-bold lead ms-3 text-dark">Lista de tareas</span>
+        </a>
+    </div>
+    <div class="row g-0 h-100 py-5">
+      <div class="col-lg-5">
+        <div class="content-form mx-auto align-self-center px-4 my-2">
+            <div class="formulario card bg-light text-center">
+                <div class="card-body">
+                    <div *ngIf="spinner" class="spinner-border text-danger" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                    <p class="fw-bold lead mb-3 mt-1">{{ formAccion ? 'Editar' : 'Agregar' }} tarea</p>
+                    <form [formGroup]="listForm" (ngSubmit)="setTarea()">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text"><i [style.color]="estiloInput('titulo')" class="fad fa-file-edit"></i></span>
+                            <input type="text" class="form-control" placeholder="Ingresar titulo" formControlName="titulo" autofocus required>
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text"><i [style.color]="estiloInput('contenido')" class="fad fa-clipboard-list-check"></i></span>
+                            <textarea class="form-control" placeholder="Ingresar contenido" formControlName="contenido" required></textarea>
+                        </div>
+                        <div class="input-group mb-3">
+                            <input type="datetime-local" class="form-control" [style.color]="estiloInput('fecha')" formControlName="fecha" required>
+                        </div>
+                        <div>
+                            <input [disabled]="this.listForm.invalid" class="btn btn-primary mb-2" type="submit" value="{{ formAccion ? 'Editar' : 'Agregar' }}"/>
+                            <button *ngIf="formAccion" class="btn btn-danger mb-2 ms-2" (click)="formAccion = false; listForm.reset()">Cancelar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div *ngIf="infoComponent && tareaInfo != undefined" class="info card mt-3">
+                <i class="exit fad fa-times-square text-danger btn-i" (click)="infoComponent = false"></i>
+                <div class="card-body row row-info">
+                    <div class="col-lg-6">
+                        <p class="head"><i class="fad fa-file-edit"></i> Tarea</p>
+                        <p class="text">{{ tareaInfo.titulo }}</p>
+                        <p class="head"><i class="fad fa-clipboard-list-check"></i> Contenido</p>
+                        <p class="text contenido">{{ tareaInfo.contenido }}</p>
+                    </div>
+                    <div class="col-lg-6"> 
+                        <p class="head"><i class="fad fa-calendar-day"></i> Fecha</p>
+                        <p class="text">{{ tareaInfo.fecha | date:'dd/MM/yyyy, h:mm a' }}</p>
+                        <p class="head"><i class="fad fa-exclamation-circle"></i> Estado</p>
+                        <p class="text">
+                            <i class="fad fa-{{ tareaInfo.estado == 'N' ? 'times' : (tareaInfo.estado == 'P' ? 'dot' : 'check') }}-circle"
+                            [style.color]="tareaInfo.estado == 'N' ? 'red' : (tareaInfo.estado == 'P' ? 'deepskyblue' : 'green')" >
+                            </i> {{ tareaInfo.estado == 'N' ? 'No realizada' : (tareaInfo.estado == 'P' ? 'En proceso' : 'Realizada') }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+      <div class="col-lg-7">
+        <div class="content-task mx-auto align-self-center px-4 my-2">
+            <div class="tasks card bg-light text-center">
+                <div class="card-body table-responsive">
+                    <table class="table table-borderless">
+                        <thead>
+                            <tr>
+                              <th scope="col">Núm</th>
+                              <th scope="col">Tarea</th>
+                              <th scope="col">Fecha</th>
+                              <th scope="col">Estado</th>
+                              <th scope="col">Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let tarea of tareas | async ; let i = index">
+                                <th scope="row">{{ i + 1 }}</th>
+                                <td>{{ tarea.titulo }}</td>
+                                <td>{{ tarea.fecha | date:'dd/MM/yyyy, h:mm a' }}</td>
+                                <td><i class="fad fa-{{ tarea.estado == 'N' ? 'times' : (tarea.estado == 'P' ? 'dot' : 'check') }}-circle"
+                                    [style.color]="tarea.estado == 'N' ? 'red' : (tarea.estado == 'P' ? 'deepskyblue' : 'green')" ></i></td>
+                                <td>
+                                    <div class="estado">
+                                        <i *ngIf="!(tarea.estado == 'R')" class="fad fa-check-circle text-success mx-1 btn-i" 
+                                            (click)="actualizarTarea(false, 'R', tarea.id)">
+                                        </i>
+                                        <i *ngIf="!(tarea.estado == 'P')" class="fad fa-dot-circle text-info mx-1 btn-i"
+                                            (click)="actualizarTarea(false, 'P', tarea.id)">
+                                        </i>
+                                        <i *ngIf="!(tarea.estado == 'N')" class="fad fa-times-circle text-danger mx-1 btn-i"
+                                            (click)="actualizarTarea(false, 'N', tarea.id)">
+                                        </i>
+                                    </div>
+                                    <div class="accion">
+                                        <i class="fad fa-info-square text-info mx-1 btn-i" 
+                                            (click)="setInfoComponent(tarea.id, i)">
+                                        </i>
+                                        <i class="fad fa-pen-square text-warning mx-1 btn-i"
+                                            (click)="setActualizacionForm(tarea.id, i)">
+                                        </i>
+                                        <i class="fad fa-minus-square text-danger mx-1 btn-i"
+                                            (click)="eliminarTarea(tarea.id)">
+                                        </i>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+    <btn-scroll-top></btn-scroll-top>
+</section>
