@@ -39,12 +39,12 @@ export class LoginComponent implements OnInit {
       if(error.code == 'auth/user-not-found'){
         this.toastr.error('Este usuario no fue encontrado.', 'Inicio de sesión')
         this.alerta2Color(['red'], ['email', 'pass', 'user']);
-        this.turnBlackInTime(['email', 'pass', 'user'], 4000)
+        this.turnBlackInTime(['email', 'pass', 'user'], 5000)
       }
       else if(error.code == 'auth/wrong-password'){
         this.toastr.error('Contraseña incorrecta.', 'Inicio de sesión')
         this.alerta2Color(['red'], ['pass']);
-        this.turnBlackInTime(['pass'], 4000)
+        this.turnBlackInTime(['pass'], 5000)
       }
       else if(error.code == 'auth/too-many-requests'){
         this.toastr.warning('El acceso a esta cuenta ha sido temporalmente deshabilitado debido a demasiados intentos fallidos. Espere 1 minuto para intentar de nuevo.',
@@ -73,7 +73,7 @@ export class LoginComponent implements OnInit {
       if(error.code == 'auth/email-already-in-use'){
         this.toastr.error('Este correo esta ya en uso.', 'Registro')
         this.alerta2Color(['red', 'black'], ['email', 'pass']);
-        this.turnBlackInTime(['email'], 4000)
+        this.turnBlackInTime(['email'], 5000)
       }
       else
         this.toastr.error('Hubo un error al registrar este usuario', 'Error')
