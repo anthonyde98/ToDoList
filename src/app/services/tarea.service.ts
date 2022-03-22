@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { collection, addDoc, Firestore, collectionData, query, CollectionReference, updateDoc, doc, getDoc, docData, DocumentReference, deleteDoc } from '@angular/fire/firestore';
-import { orderBy } from 'firebase/firestore';
+import { orderBy, where } from 'firebase/firestore';
 import { Observable } from 'rxjs';
 
 export interface Tarea {
@@ -9,6 +9,7 @@ export interface Tarea {
   contenido: string;
   fecha: string;
   estado: string;
+  usuario?: string;
 }
 
 @Injectable({
@@ -20,15 +21,17 @@ export class TareaService {
 
   constructor(private fire: Firestore) { }
 
-  async agregarTarea(tarea: Tarea){
+  async agregarTarea(tarea: Tarea, uid: string){
     let task = collection(this.fire, 'tarea');
+
+    tarea.usuario = uid;
     await addDoc(task, tarea);
   }
 
-  obtenerTareas(): Observable<Tarea[]>{
+  obtenerTareas(uid: string): Observable<Tarea[]>{
     return collectionData<Tarea>(
       query<Tarea>(
-        collection(this.fire, 'tarea') as CollectionReference<Tarea>, orderBy("fecha")
+        collection(this.fire, 'tarea') as CollectionReference<Tarea>, where('usuario', '==', uid), orderBy("fecha")
       ), {idField: 'id'}
     );
   }

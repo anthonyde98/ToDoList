@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 import { Tarea, TareaService } from 'src/app/services/tarea.service';
+import { UsuarioService } from 'src/app/services/usuario.service';
 
 @Component({
   selector: 'app-inicio',
@@ -12,14 +13,25 @@ import { Tarea, TareaService } from 'src/app/services/tarea.service';
 export class InicioComponent implements OnInit {
   listForm!: FormGroup;
   spinner: boolean = false;
-  tareas: Observable<Tarea[]>;
+  tareas!: Observable<Tarea[]>;
   tareaInfo: any;
   tareaEdit: any;
   infoComponent: boolean = false;
   formAccion: boolean = false;
+  usuario: any;
 
-  constructor(private fb: FormBuilder, private tareaService: TareaService, private toast: ToastrService) {
-    this.tareas = this.tareaService.obtenerTareas();
+  constructor(private fb: FormBuilder, private tareaService: TareaService, private toast: ToastrService, private usuarioService: UsuarioService) {
+    
+    this.usuario = {
+      uid: "",
+      email: ""
+    }
+
+    this.usuarioService.obtenerUsuarioActual().subscribe(data => {
+      this.usuario = data;
+      if(this.usuario != null)
+        this.tareas = this.tareaService.obtenerTareas(this.usuario.uid);
+    })
 
     this.listForm = this.fb.group({
       titulo: ["", [Validators.minLength(2), Validators.required]],
@@ -36,6 +48,7 @@ export class InicioComponent implements OnInit {
    }
 
   ngOnInit(): void {
+    
   }
 
   setTarea(){
@@ -55,7 +68,7 @@ export class InicioComponent implements OnInit {
     else{
       tarea.estado = 'N';
 
-      this.tareaService.agregarTarea(tarea).then(() => {
+      this.tareaService.agregarTarea(tarea, this.usuario.uid).then(() => {
         this.toast.success("La tarea fue agregada con exito.", "Agregada");
       }).catch(error => {
         this.toast.error("Hubo un error al agregar la tarea.", "Error");

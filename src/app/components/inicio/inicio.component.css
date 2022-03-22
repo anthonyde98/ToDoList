@@ -3,14 +3,6 @@
     box-shadow: 0 2px 8px 0 rgba(73, 73, 73, 0.44);
 }
 
-.logo{
-    width: 250px;
-    text-align: center;
-    padding: 10px;
-    border-radius: 10px;
-}
-
-
 .spinner-border{
     position: absolute;
     right: 30px;
@@ -77,13 +69,17 @@ table td:nth-child(2) {
     top: 10px
 }
 
-@media (max-width: 600px) {
-    .logo{
-        margin: auto !important;
-    }
-
+@media (max-width: 992px) {
     .row{
-        padding-top: 15px !important;
+        padding-top: 10px !important;
+    }
+    .inicio{
+        margin-top: 0 !important;
+    }
+}
+
+@media (max-width: 600px) {
+    .row{
         padding-bottom: 15px !important;
     }
     .row-info{

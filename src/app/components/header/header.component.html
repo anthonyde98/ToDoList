@@ -1,0 +1,26 @@
+<section class="header mt-3" id="header">
+    <nav class="navbar navbar-expand-lg navbar-light" id="navbar">
+        <div class="container bg-light" id="container">
+            <div class="logo ms-3">
+                <a [routerLink]="['']" routerLinkActive="router-link-active" class="navbar-brand">
+                    <i class="fad fa-tasks"></i>
+                    <span class="fw-bold lead ms-3 text-dark">Lista de tareas</span>
+                </a>
+            </div>
+            <button *ngIf="usuario != null" class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="fad fa-bars lead text-dark"></i>
+            </button>
+            <div *ngIf="usuario != null" class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item d-flex">
+                        <a class="us nav-link align-self-center fw-bold lead text-dark me-2 ps-4">{{ usuario.email | split:'@' }}<i class="fad fa-user-circle ms-2 text-danger"></i></a>
+                    </li>
+                    <li class="nav-item">
+                        <button class="btn btn-light my-2" (click)="cerrarSesion()"><i class="fad fa-sign-out"></i></button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+      </nav>
+</section>
+
