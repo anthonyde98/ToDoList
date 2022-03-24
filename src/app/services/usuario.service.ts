@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Auth, createUserWithEmailAndPassword, onAuthStateChanged, sendEmailVerification, signInWithEmailAndPassword } from '@angular/fire/auth';
-import { signOut } from 'firebase/auth';
+import { Auth, createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut } from '@angular/fire/auth';
 import { Observable } from 'rxjs';
 
 export interface Usuario {
