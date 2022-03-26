@@ -80,7 +80,7 @@ export class InicioComponent implements OnInit {
   }
 
   obtenerTarea(opcion: boolean, id?: string, i?: number){
-    this.tareaService.obtenerTarea(id || "").subscribe(data => {
+    this.tareaService.obtenerTarea(id || "").then(data => {
       if(opcion){
         this.tareaInfo = data;
         this.infoComponent = true;
@@ -95,16 +95,14 @@ export class InicioComponent implements OnInit {
       else{
         this.tareaEdit = data;
         this.tareaEdit.index = i;
-        console.log( this.tareaEdit.index)
+  
         this.listForm.patchValue({
           titulo: this.tareaEdit.titulo,
           contenido: this.tareaEdit.contenido,
           fecha: this.tareaEdit.fecha
         })
       }
-    }, 
-      error => this.toast.error("Hubo un error al obtener la tarea.", "Error")
-    )
+    })
   }
 
   actualizarTarea(opcion: boolean, dato?: any, id?: string){

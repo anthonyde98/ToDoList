@@ -14,7 +14,7 @@
                       <form [formGroup]="usuarioForm">
                           <div class="input-group mb-3">
                               <span class="input-group-text"><i [style.color]="estiloInput('correo')" class="fad fa-user" id="email"></i></span>
-                              <input type="text" class="form-control" placeholder="Ingresar correo" formControlName="correo" autofocus required>
+                              <input type="text" class="form-control" placeholder="Ingresar correo" formControlName="correo" autocomplete="email" autofocus required>
                           </div>
                           <div class="input-group mb-3">
                               <span class="input-group-text"><i [style.color]="estiloInput('contrasena')" class="fad fa-key" id="pass"></i></span>

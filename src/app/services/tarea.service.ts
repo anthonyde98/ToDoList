@@ -42,12 +42,14 @@ export class TareaService {
     await updateDoc(task, datos);
   }
 
-  obtenerTarea(id: string): Observable<Tarea>{
+  /*obtenerTareaCanal(id: string): Observable<Tarea>{
     return docData<Tarea>(
       doc(this.fire, "tarea", id) as DocumentReference<Tarea>, {idField: 'id'}
     );
+  }*/
 
-    /*let task = doc(this.fire, 'tarea', id);
+  async obtenerTarea(id: string){
+    let task = doc(this.fire, 'tarea', id);
 
     let docSnap = await getDoc(task);
 
@@ -55,7 +57,7 @@ export class TareaService {
       return docSnap.data();
     } else {
       return false;
-    }*/
+    }
   }
 
   async eliminarTarea(id: string){
