@@ -159,17 +159,22 @@ export class InicioComponent implements OnInit {
 
   setActualizacionForm(id?: string, i?: number){
 
-    this.formAccion = this.tareaEdit.index == i ? !this.formAccion : this.formAccion;
+    this.formAccion = this.tareaEdit.index === i ? false : true;
 
     if(this.formAccion){
       this.obtenerTarea(false, id, i);
       this.scrollTo(0);
     }
     else if(!this.formAccion){
-      this.tareaEdit = {};
-      this.tareaEdit.index = i;
-      this.listForm.reset();
+      this.emptyActForm(i);
     }
+  }
+
+  emptyActForm(i?: number){
+    this.tareaEdit = {};
+    this.tareaEdit.index = "";
+    this.listForm.reset();
+    this.formAccion = false;
   }
 
   setInfoComponent(id?: string, i?:number){
