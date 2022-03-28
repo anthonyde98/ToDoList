@@ -80,8 +80,8 @@ export class InicioComponent implements OnInit {
   }
 
   obtenerTarea(opcion: boolean, id?: string, i?: number){
-    this.tareaService.obtenerTarea(id || "").then(data => {
-      if(opcion){
+
+    let tInfo = (data: any) => {
         this.tareaInfo = data;
         this.infoComponent = true;
         if(document.body.clientWidth < 992)
@@ -90,19 +90,29 @@ export class InicioComponent implements OnInit {
           this.scrollTo(0);
         
         this.tareaInfo.index = i;
-        console.log(i)
-      }
-      else{
-        this.tareaEdit = data;
-        this.tareaEdit.index = i;
-  
-        this.listForm.patchValue({
-          titulo: this.tareaEdit.titulo,
-          contenido: this.tareaEdit.contenido,
-          fecha: this.tareaEdit.fecha
-        })
-      }
-    })
+    }
+
+    if(opcion && document.body.scrollTop == 0)
+      this.tareaService.obtenerTareaCanal(id || "").subscribe(data => {
+        tInfo(data);
+      })
+    else{
+      this.tareaService.obtenerTarea(id || "").then(data => {
+        if(opcion){
+          tInfo(data);
+        }
+        else{
+          this.tareaEdit = data;
+          this.tareaEdit.index = i;
+    
+          this.listForm.patchValue({
+            titulo: this.tareaEdit.titulo,
+            contenido: this.tareaEdit.contenido,
+            fecha: this.tareaEdit.fecha
+          })
+        }
+      })
+    }
   }
 
   actualizarTarea(opcion: boolean, dato?: any, id?: string){

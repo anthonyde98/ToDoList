@@ -42,11 +42,11 @@ export class TareaService {
     await updateDoc(task, datos);
   }
 
-  /*obtenerTareaCanal(id: string): Observable<Tarea>{
+  obtenerTareaCanal(id: string): Observable<Tarea>{
     return docData<Tarea>(
       doc(this.fire, "tarea", id) as DocumentReference<Tarea>, {idField: 'id'}
     );
-  }*/
+  }
 
   async obtenerTarea(id: string){
     let task = doc(this.fire, 'tarea', id);
