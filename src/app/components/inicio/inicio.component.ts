@@ -62,7 +62,6 @@ export class InicioComponent implements OnInit {
     let tarea: Tarea = this.listForm.value;
 
     if(this.formAccion){
-
       this.actualizarTarea(true, this.listForm.value, this.tareaEdit.id)
     }
     else{
@@ -103,6 +102,7 @@ export class InicioComponent implements OnInit {
         }
         else{
           this.tareaEdit = data;
+          this.tareaEdit.id = id;
           this.tareaEdit.index = i;
     
           this.listForm.patchValue({
@@ -118,7 +118,7 @@ export class InicioComponent implements OnInit {
   actualizarTarea(opcion: boolean, dato?: any, id?: string){
     let datos;
     let mensaje = "";
-
+    
     if(!opcion){
       datos = {
         estado: dato
@@ -142,6 +142,7 @@ export class InicioComponent implements OnInit {
       });
     }).catch(error => {
       this.toast.error("Hubo un error al editar la tarea.", "Error");
+      console.log(error)
     }).finally(() => {
       if(opcion){  
         this.spinner = false;
